@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Listar Vagas Cadastradas</title>
+    <link rel="stylesheet" href="../CSS/styles.css"> <!-- Estilização -->
+    <script src="../JS/scripts.js" defer></script> <!-- Carregar scripts -->
+</head>
+<body>
+    <h1>Vagas Cadastradas</h1>
+
+    <!-- Adicionando o contador para mostrar vagas reservadas -->
+    <p>Vagas reservadas: <span id="contadorVagas">0</span> de 10</p> <!-- Inicializa com zero -->
+
+    <table id="vagasTabela" border="1">
+        <tr>
+            <th>Placa do Veículo</th>
+            <th>Nome do Proprietário</th>
+            <th>Número do Apartamento</th>
+            <th>Bloco do Apartamento</th>
+            <th>Modelo do Veículo</th>
+            <th>Cor do Veículo</th>
+            <th>Número da Vaga</th>
+        </tr>
+        <!-- A tabela será preenchida por JavaScript -->
+    </table>
+
+    <!-- Botão para limpar todas as vagas -->
+    <button id="limparVagas">Limpar Todas as Vagas</button> <!-- Botão para limpar vagas -->
+
+    <!-- Botão para voltar à tela principal -->
+    <button id="voltarTela1">Voltar para a Tela Principal</button> <!-- Botão para voltar -->
+
+    <script>
+    // Código para preencher a tabela com reservas do Local Storage
+    let reservas = JSON.parse(localStorage.getItem("reservas")) || []; 
+    const tabela = document.getElementById("vagasTabela");
+    const contador = document.getElementById("contadorVagas"); // Elemento para o contador
+
+    // Atualizar o contador com o número total de vagas reservadas
+    contador.textContent = reservas.length; // Exibe o total de vagas reservadas
+
+    reservas.forEach((reserva) => {
+        const row = tabela.insertRow(); // Cria uma nova linha na tabela
+        Object.values(reserva).forEach((value) => {
+            const cell = row.insertCell(); // Cria uma célula
+            cell.textContent = value; // Define o texto
+        });
+    });
+
+    // Função para limpar todas as vagas
+    document.getElementById("limparVagas").addEventListener("click", function() {
+        localStorage.removeItem("reservas"); // Limpa o Local Storage
+        while (tabela.rows.length > 1) {
+            tabela.deleteRow(1); // Remove todas as linhas, exceto o cabeçalho
+        }
+
+        // Atualiza o contador para zero
+        contador.textContent = "0"; // Redefine o contador para zero
+
+        alert("Todas as vagas foram removidas."); // Confirmação ao usuário
+    });
+
+    // Função para voltar à tela principal
+    document.getElementById("voltarTela1").addEventListener("click", function() {
+        window.location.href = "index.html"; // Caminho para a tela principal
+    });
+
+    </script>
+</body>
+</html>
